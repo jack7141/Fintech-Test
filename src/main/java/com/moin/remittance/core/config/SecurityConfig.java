@@ -99,8 +99,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(req -> req
                 .requestMatchers(
-                        "/api/v1/users/login",
-                        "/api/v1/users/signup",
+                        "/api/v1/user/login",
+                        "/api/v1/user/signup",
                         "/swagger-ui/**",
                         "/v3/api-docs/**",
                         "/api-docs/swagger-config",

@@ -7,6 +7,7 @@ import com.moin.remittance.service.meber.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1/user")
 @Tag(name = "사용자", description = "사용자 관련 API")
 public class MemberController {
 
@@ -45,7 +46,16 @@ public class MemberController {
         return ResponseEntity.ok(DataResponseDTO.of(newMember, "회원가입이 성공적으로 완료되었습니다."));
     }
 
-    @Operation(summary = "로그인 엔드포인트(swagger용 엔드포인트: 서블릿 필터에서 응답함)")
+
+    /**
+     * 로그인
+     *
+     * @RequestBody properties
+     * username: 유저 아이디(이메일 형식)
+     * password : 비밀번호
+     * name : 이름
+     */
+    @Operation(summary = "로그인 From 서블릿 필터")
     @PostMapping(value = "/login",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE

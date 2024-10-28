@@ -9,11 +9,11 @@ import lombok.ToString;
 @ToString
 public class ResponseDTO {
     private final String status;
-    private final Integer code;
-    private final String message;
+    private final Integer resultCode;
+    private final String resultMsg;
 
 
-    public static ResponseDTO of(String status, int code, String message) {
-        return new ResponseDTO(status, code, message);
+    public static ResponseDTO of(String status, int resultCode, String resultMsg) {
+        return new ResponseDTO(status, resultCode, resultMsg);
     }
 }
