@@ -37,4 +37,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ErrorResponseDTO.of(404, e.getMessage()));
     }
+    @ExceptionHandler(NegativeNumberException.class)
+    public ResponseEntity<ErrorResponseDTO> handleDuplicateMemberException(NegativeNumberException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ErrorResponseDTO.of(400, e.getMessage()));
+    }
 }
