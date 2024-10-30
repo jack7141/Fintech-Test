@@ -3,11 +3,14 @@ package com.moin.remittance.controller.v1;
 import com.moin.remittance.domain.dto.member.MemberDTO;
 import com.moin.remittance.domain.dto.response.DataResponseDTO;
 import com.moin.remittance.domain.dto.response.QuoteResponseDTO;
+import com.moin.remittance.domain.dto.response.SimpleResponseDTO;
 import com.moin.remittance.domain.dto.response.TradeHistResponseDTO;
+import com.moin.remittance.domain.dto.trade.AcceptQuoteReq;
 import com.moin.remittance.domain.dto.trade.TradeHistoryDTO;
 import com.moin.remittance.domain.dto.trade.TradeRespDTO;
 import com.moin.remittance.domain.dto.transfer.QuoteReqDTO;
 import com.moin.remittance.domain.dto.transfer.QuoteRespDTO;
+import com.moin.remittance.domain.entity.Trade.TradeEntity;
 import com.moin.remittance.service.meber.MemberService;
 import com.moin.remittance.service.trade.TradeService;
 import com.moin.remittance.service.transfer.TransferService;
@@ -50,6 +53,14 @@ public class RemittanceController {
     public ResponseEntity<QuoteResponseDTO<QuoteRespDTO>> signup(@RequestBody @Valid QuoteReqDTO QuoteReqDTO) {
         QuoteRespDTO newMember = transferService.calculateQuote(QuoteReqDTO);
         return ResponseEntity.ok(QuoteResponseDTO.of(newMember, "OK"));
+    }
+
+    @Operation(summary = "송금 접수 요청")
+    @PostMapping(value = "/request")
+    public ResponseEntity<SimpleResponseDTO> createQuote(@RequestBody @Valid AcceptQuoteReq AcceptQuoteReq) {
+        Long quoteId = Long.parseLong(AcceptQuoteReq.getQuoteId());
+        tradeService.acceptQuoteTransaction(quoteId);
+        return ResponseEntity.ok(new SimpleResponseDTO(200, "OK"));
     }
 
     @Operation(summary = "회원의 거래 이력을 리턴")
