@@ -47,15 +47,4 @@ public class MemberDTO {
                 .build();
     }
 
-
-    public MemberEntity toEntity(PasswordEncoder passwordEncoder) {
-        MemberEntity member = MemberEntity.builder()
-                .userId(this.userId)
-                .name(this.name)
-                .role(this.role != null ? this.role : "ROLE_PRIVATE")
-                .password(this.password != null ? passwordEncoder.encode(this.password) : null)
-                .build();
-
-        return member;
-    }
 }

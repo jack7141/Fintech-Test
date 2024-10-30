@@ -1,14 +1,20 @@
 package com.moin.remittance.domain.entity.member;
 
+import com.moin.remittance.domain.entity.Trade.TradeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
+@Builder
 @Component
 @Entity
 @Table(name = "member")
@@ -35,6 +41,23 @@ public class MemberEntity {
 
     @Column(name = "id_value", nullable = false)
     private String idValue;
+
+
+    @OneToMany(mappedBy = "transaction_by", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TradeEntity> trades = new ArrayList<>();
+
+
+
+    public MemberEntity toEntity(PasswordEncoder passwordEncoder) {
+        MemberEntity member = MemberEntity.builder()
+                .userId(this.userId)
+                .name(this.name)
+                .role(this.role != null ? this.role : "ROLE_PRIVATE")
+                .password(this.password != null ? passwordEncoder.encode(this.password) : null)
+                .build();
+
+        return member;
+    }
 
     @Builder
     public MemberEntity(String userId, String name, String password, String role, String idType, String idValue) {
