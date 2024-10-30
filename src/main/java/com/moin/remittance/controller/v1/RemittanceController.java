@@ -56,48 +56,16 @@ public class RemittanceController {
     @GetMapping(value = "/list")
     public ResponseEntity<TradeHistResponseDTO> getUserTradeList() {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<TradeHistoryDTO> transferHistory = Arrays.asList(
-                TradeHistoryDTO.builder()
-                        .sourceAmount(400000)
-                        .fee(3000)
-                        .usdExchangeRate(1301.01)
-                        .usdAmount(305.14)
-                        .targetCurrency("USD")
-                        .exchangeRate(1301.01)
-                        .targetAmount(305.14)
-                        .requestedDate(LocalDateTime.parse("2023-12-01 10:30:21", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                        .build(),
-                TradeHistoryDTO.builder()
-                        .sourceAmount(300000)
-                        .fee(3000)
-                        .usdExchangeRate(1301.01)
-                        .usdAmount(228.28)
-                        .targetCurrency("JPY")
-                        .exchangeRate(9.0565)
-                        .targetAmount(32794)
-                        .requestedDate(LocalDateTime.parse("2023-12-06 15:27:53", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                        .build(),
-                TradeHistoryDTO.builder()
-                        .sourceAmount(605000)
-                        .fee(3000)
-                        .usdExchangeRate(1317.00)
-                        .usdAmount(457.10)
-                        .targetCurrency("USD")
-                        .exchangeRate(1317.00)
-                        .targetAmount(457.10)
-                        .requestedDate(LocalDateTime.parse("2023-12-21 09:50:55", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                        .build()
-        );
-
+        TradeRespDTO TradeRespDTO = tradeService.getUserTrade(userId);
         TradeHistResponseDTO responseDTO = TradeHistResponseDTO.of(
                 "success",
                 200,
                 "OK",
-                userId,
-                "모인주식회사", // 사용자 이름 예제
-                1, // 오늘 송금 횟수 (예제)
-                457.10, // 오늘 송금 금액 (예제)
-                transferHistory
+                TradeRespDTO.getUserId(),
+                TradeRespDTO.getName(), // 사용자 이름 예제
+                TradeRespDTO.getTodayTransferCount(), // 오늘 송금 횟수 (예제)
+                TradeRespDTO.getTodayTransferUsdAmount(), // 오늘 송금 금액 (예제)
+                TradeRespDTO.getHistory()
         );
 
         return ResponseEntity.ok(responseDTO);
