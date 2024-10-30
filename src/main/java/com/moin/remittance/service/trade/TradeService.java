@@ -1,6 +1,7 @@
 package com.moin.remittance.service.trade;
 
 import com.moin.remittance.domain.dto.trade.TradeDTO;
+import com.moin.remittance.domain.dto.trade.TradeRespDTO;
 import com.moin.remittance.domain.entity.Trade.TradeEntity;
 import com.moin.remittance.domain.entity.member.MemberEntity;
 import com.moin.remittance.repository.TradeRepository;
@@ -16,5 +17,9 @@ public class TradeService {
 
     public TradeEntity saveTrade(TradeDTO dto, MemberEntity currentUser) {
         return tradeRepository.save(dto.toEntity(dto, currentUser));
+    }
+
+    public TradeRespDTO getUserTrade(String userId) {
+        return null;
     }
 }

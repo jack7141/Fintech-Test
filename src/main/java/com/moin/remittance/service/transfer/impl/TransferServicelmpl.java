@@ -114,7 +114,6 @@ public class TransferServicelmpl implements TransferService {
         return response;
     }
 
-
     private String getCurrentUserId() {
         // Fetch the current user ID from the security context or any other context you're using
         return SecurityContextHolder.getContext().getAuthentication().getName();
