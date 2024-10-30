@@ -35,7 +35,7 @@ public class RemittanceController {
      * @Param String targetCurrency: 타겟 통화
      **/
     @Operation(summary = "두나무 오픈 API 스크래핑해서 환율이 적용된 송금 견적서를 리턴")
-    @PostMapping(value = "/transfer/quote")
+    @PostMapping(value = "/quote")
     public ResponseEntity<QuoteResponseDTO<QuoteRespDTO>> signup(@RequestBody @Valid QuoteReqDTO QuoteReqDTO) {
         QuoteRespDTO newMember = transferService.calculateQuote(QuoteReqDTO);
         return ResponseEntity.ok(QuoteResponseDTO.of(newMember, "OK"));

@@ -55,9 +55,4 @@ public class TradeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private MemberEntity transaction_by;
-
-    public TradeEntity toEntity() {
-        TradeEntity tradeEntity = TradeEntity.builder().build();
-        return new TradeEntity();
-    }
 }

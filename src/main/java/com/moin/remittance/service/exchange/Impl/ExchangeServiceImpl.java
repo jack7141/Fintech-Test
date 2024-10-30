@@ -46,22 +46,18 @@ public class ExchangeServiceImpl implements ExchangeService {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             String responseBody = response.body();
 
-            // Parse the JSON response
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode root = objectMapper.readTree(responseBody);
+            JsonNode firstNode = root.get(0);
+            ExchangeRateDTO rateDTO = new ExchangeRateDTO();
+            rateDTO.setCode(codes);
+            rateDTO.setCurrencyCode(firstNode.path("currencyCode").asText());
+            rateDTO.setBasePrice(firstNode.path("basePrice").doubleValue());
+            rateDTO.setCurrencyUnit(firstNode.path("recurrenceCount").intValue());
 
-            for (JsonNode node : root) {
-                ExchangeRateDTO rateDTO = new ExchangeRateDTO();
-                rateDTO.setCode(node.path("code").asText());
-                rateDTO.setCurrencyCode(node.path("currencyCode").asText());
-                rateDTO.setBasePrice(node.path("basePrice").doubleValue());
-                rateDTO.setCurrencyUnit(node.path("recurrenceCount").intValue());
-
-                exchangeRateInfoHashMap.put(rateDTO.getCode(), rateDTO);
-            }
+            exchangeRateInfoHashMap.put(rateDTO.getCode(), rateDTO);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-            // handle exceptions properly in a real-world scenario
         }
 
         return exchangeRateInfoHashMap;

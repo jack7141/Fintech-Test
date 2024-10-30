@@ -89,6 +89,7 @@ public class MemberServicelmpl  implements MemberService {
                 MemberEntity.builder()
                         .userId(member.getUserId())
                         .password(bCryptPasswordEncoder.encode(member.getPassword()))
+                        .role(member.getRole())
                         .name(member.getName())
                         .idType(member.getIdType())
                         .idValue(bCryptPasswordEncoder.encode(member.getIdValue()))

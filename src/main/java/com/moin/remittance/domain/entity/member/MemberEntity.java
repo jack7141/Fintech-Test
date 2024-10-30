@@ -52,7 +52,7 @@ public class MemberEntity {
         MemberEntity member = MemberEntity.builder()
                 .userId(this.userId)
                 .name(this.name)
-                .role(this.role != null ? this.role : "ROLE_PRIVATE")
+                .role(this.role != null ? this.role : "REG_NO")
                 .password(this.password != null ? passwordEncoder.encode(this.password) : null)
                 .build();
 
