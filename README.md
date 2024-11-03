@@ -145,7 +145,7 @@ curl -X POST "http://localhost:8080/user/signup" \
 > - member: 회원
 > - trade: 송금 내역, 견적서
 
-<img src="./Images/ERD.png" style="width: 100%"><br><br>
+<img src="./images/ERD.png" style="width: 100%"><br><br>
 
 # 회고
 이번 과제를 진행하면서 java와 springBoot 개념을 리마인드 할 수 있었습니다.
