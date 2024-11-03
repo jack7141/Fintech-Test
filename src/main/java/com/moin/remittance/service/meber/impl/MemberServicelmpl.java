@@ -59,29 +59,28 @@ public class MemberServicelmpl  implements MemberService {
 
         Matcher targetMatcher;
         switch (member.getIdType().toUpperCase()) {
-            // type 매칭 -> 패턴 체크
             case "REG_NO":
                 targetMatcher = residentPattern.matcher(member.getIdValue());
                 if (!targetMatcher.matches()) {
-                    throw new InValidPatternTypeException("BAD_INDIVIDUAL_MEMBER_INVALID_ID_VALUE");
+                    throw new InValidPatternTypeException("[개인회원] - 잘못된 ID 값");
                 }
                 break;
             case "BUSINESS_NO":
                 targetMatcher = businessPattern.matcher(member.getIdValue());
                 if (!targetMatcher.matches()) {
-                    throw new InValidPatternTypeException("BAD_CORPORATION_MEMBER_INVALID_ID_VALUE");
+                    throw new InValidPatternTypeException("[법인회원] - 잘못된 ID 값");
                 }
                 break;
             default:
-                // @valid에서 체킹 하지만 혹시 모를 예외 상황 대비
-                throw new InValidPatternTypeException("BAD_REQUEST_BODY_INVALID_ERROR");
+                //  그 외 예외
+                throw new InValidPatternTypeException("잘못된 요청입니다.");
         }
 
         // 2. 회원 중복 조회
         boolean isExistingUserId = memberRepository.existsByUserId(member.getUserId());
 
         if (isExistingUserId) {
-            throw new DuplicateUserIdException("BAD_DUPLICATE_USERID_INVALID_USERID");
+            throw new DuplicateUserIdException("중복된 회원입니다.");
         }
 
         // 3. 비밀번호, 주민등록번호 or 사업자등록번호 암호화해서 저장
