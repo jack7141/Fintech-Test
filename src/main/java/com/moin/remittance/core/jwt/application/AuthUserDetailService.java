@@ -23,18 +23,14 @@ public class AuthUserDetailService implements UserDetailsService {
      * */
     @Override
     public UserDetails loadUserByUsername(String userId) throws InternalAuthenticationServiceException {
-        log.info("'" + userId + "' 조회 중......");
-
         MemberEntity member = memberRepository.findByUserId(userId);
 
         /*
-         * @Exception NotFoundMemberException: DB에 일치하는 유저 없는 경우
+         * @Exception DB에 일치하는 유저 없는 경우
          * */
         if(member == null) {
-            throw new NotFoundMemberException("BAD_NOT_MATCH_MEMBER");
+            throw new NotFoundMemberException("일치하는 회원이 없습니다.");
         }
-
-        log.info("'" + userId + "' 존재");
 
         return new AuthUserDetailsProvider(member);
     }

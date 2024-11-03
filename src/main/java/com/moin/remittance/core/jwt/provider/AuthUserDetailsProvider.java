@@ -14,9 +14,6 @@ import java.util.Collection;
 public class AuthUserDetailsProvider implements UserDetails {
     private final MemberEntity memberEntity;
 
-    /**
-     * 권한 getter 메소드
-     **/
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collection = new ArrayList<>();

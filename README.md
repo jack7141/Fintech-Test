@@ -122,16 +122,79 @@ src/
 
 다음 명령어를 사용하여 회원 가입 API를 호출할 수 있습니다:
 
+### 1. 회원가입 API
+- #### EndPoint: /api/v1/user/signup
+- #### Method: POST
+- #### *Request Body*
 ```sh
-curl -X POST "http://localhost:8080/user/signup" \
--H "Content-Type: application/json" \
--d '{
-    "userId": "user@example.com",
-    "password": "UserPassword123!",
-    "idType": "REG_NO",
-    "idValue": "123456-1234567"
+curl -X 'POST' \
+  'http://localhost:8080/api/v1/user/signup' \
+  -H 'accept: application/json;charset=UTF-8' \
+  -H 'Content-Type: application/json;charset=UTF-8' \
+  -d '{
+  "userId": "string1@naver.com",
+  "password": "string",
+  "name": "string",
+  "role": "REG_NO",
+  "idType": "REG_NO",
+  "idValue": "920924-1056719"
 }'
+
 ```
+- #### *Response Body*
+> 2xx
+>> 200 회원가입 성공
+>> ```JSON
+>> {
+>>      "status": "success",
+>>      "resultCode": 0,
+>>      "resultMsg": "회원가입이 성공적으로 완료되었습니다.",
+>>      "data": {
+>>      "userId": "string1@naver.com",
+>>      "password": null,
+>>      "name": "string",
+>>      "role": "REG_NO",
+>>      "idType": null,
+>>      "idValue": null
+>> }
+>> }
+>> ```
+> 5xx
+>> 500 서버 에러
+>>```JSON
+>>{
+>>  "status": "failed",
+>>    "resultCode": 500,
+>>    "resultMsg": "중복된 회원입니다."
+>>  }
+>>}
+>>```
+
+### 12. 로그인 API
+- #### EndPoint: /api/v1/user/login
+- #### Method: POST
+- #### *Request Body*
+```sh
+curl -X 'POST' \
+  'http://localhost:8080/api/v1/user/login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'username=string1@naver.com' \
+  -F 'password=string'
+```
+
+- #### *Response Body*
+>  2xx
+>> 200 송금 접수 성공
+>> ```JSON
+>> {
+>>   "statusCode": 200,
+>>     "message": "Login successful",
+>>     "token": "eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJleHAiOjE3MzA2MzkwNzcsInVzZXJJZCI6InN0cmluZzFAbmF2ZXIuY29tIiwiaWRUeXBlIjoiUkVHX05PIn0.sWEMcgEwM0Ef5fLRphGAq1jvbtRn3zmRofRgb3B1GPhtMQIjNDww66Hxr42Zhsm-ANZP89Tj-W1AQulBShKMMg",
+>>      "data": null
+>>    }
+>> }
+>> ```
 
 # 구현 방법
 > ### 레이어드 아키텍처

@@ -51,30 +51,17 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         setFilterProcessesUrl(jwtConfig.AUTH_LOGIN_END_POINT);
     }
 
-    /**
-     * 🔐 인증 시도 메소드
-     * /login 엔드포인트로 요청 => 필터 => 인증 시도
-     */
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
         String userId = obtainUsername(request);
         String password = obtainPassword(request);
 
-        log.info("userId: " + userId);
-        log.info("password: " + password);
-
-        // 인증정보 객체 생성: 스프링 시큐리티에서 username, password 검증하기 위해서는 token에 담아야 함
         Authentication authentication = new UsernamePasswordAuthenticationToken(userId, password);
-        log.info("authentication: " + authentication);
-
-        // 사용자 인증 여부를 판단하는 객체
         authentication = authenticationManager.authenticate(authentication);
 
-        log.info("인증 여부: " + authentication.isAuthenticated());
-
         if (!authentication.isAuthenticated()) {
-            log.info("인증 실패!!!");
             throw new NotFoundMemberException("BAD_NOT_MATCH_MEMBER");
         }
 
@@ -96,15 +83,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String jwt = jwtTokenProvider.createAuthorizationToken(userId, idType, 60 * 60 * 1000);
 
-        log.info("jwt: " + jwt);
 
-
-        //스프링 시큐리티 인증 토큰 생성
         Authentication authToken = new UsernamePasswordAuthenticationToken(member, null);
 
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
-        // JSON 으로 변환하여 응답 본문에 작성
         response.addHeader(jwtConfig.AUTH_TOKEN_HEADER, jwtConfig.AUTH_TOKEN_PREFIX + jwt);
         response.setStatus(200); // Setting status code directly
         response.setContentType("application/json;charset=UTF-8");
