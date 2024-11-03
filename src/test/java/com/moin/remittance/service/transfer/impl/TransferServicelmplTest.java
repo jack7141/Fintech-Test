@@ -89,11 +89,23 @@ class TransferServiceImplTest {
                 .build());
         when(memberRepository.findByUserId("testUser")).thenReturn(memberEntity);
 
-        TradeEntity tradeEntity = spy(TradeEntity.builder().build());
-        doReturn(1L).when(tradeEntity).getTranscationId();
-        doReturn(1.2).when(tradeEntity).getExchangeRate();
-        doReturn(800.0).when(tradeEntity).getTargetAmount();
-        doReturn(OffsetDateTime.now()).when(tradeEntity).getRequestedDate();
+        // Create TradeEntity object using builder
+        TradeEntity tradeEntity = TradeEntity.builder()
+                .transcationId(1L)
+                .exchangeRate(1.2)
+                .targetAmount(800.0)
+                .requestedDate(OffsetDateTime.now())
+                .sourceAmount(1000L)  // 추가한 필드들
+                .fee(10.0)
+                .usdExchangeRate(1.2)
+                .usdAmount(833.33)
+                .targetCurrency("USD")
+                .transaction_by(memberEntity)
+                .build();
+
+        System.out.println("TradeEntity: " + tradeEntity.toString());
+
+
         when(tradeService.saveTrade(any(TradeDTO.class), eq(memberEntity))).thenReturn(tradeEntity);
 
         QuoteRespDTO response = transferService.calculateQuote(dto);

@@ -55,4 +55,19 @@ public class TradeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private MemberEntity transaction_by;
+
+    @Override
+    public String toString() {
+        return "TradeEntity{" +
+                "transcationId=" + transcationId +
+                ", exchangeRate=" + exchangeRate +
+                ", targetAmount=" + targetAmount +
+                ", requestedDate=" + requestedDate +
+                ", targetCurrency=" + targetCurrency +
+                ", usdAmount=" + usdAmount +
+                ", usdExchangeRate=" + usdExchangeRate +
+                ", fee=" + fee +
+                ", transaction_by=" + transaction_by +
+                '}';
+    }
 }
