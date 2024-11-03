@@ -56,11 +56,9 @@ public class TransferServicelmpl implements TransferService {
         ExchangeRateDTO exchangeRateDTO = exchangeRateInfoHashMap.get(targetCurrency);
         double exchangeRate = exchangeRateDTO.getBasePrice();
 
-        // Define variables for commission rate and fixed fee
         BigDecimal commissionRate;
         BigDecimal fixedFee;
 
-        // Determine commission rate and fixed fee based on currency and sending amount
         if (targetCurrency.equals("USD")) {
             if (sendingAmount.compareTo(BigDecimal.valueOf(1_000_000)) < 0) {
                 commissionRate = USD_COMMISSION_BELOW_MILLION;
@@ -85,10 +83,10 @@ public class TransferServicelmpl implements TransferService {
         // 받는 금액 = (보내는 금액 - 수수료) / 환율
         BigDecimal netSendingAmount = sendingAmount.subtract(totalFee);
 
-        // Calculate target amount in the receiving currency
+        // 취 통화의 목표 금액 계산
         BigDecimal targetAmount = netSendingAmount.divide(BigDecimal.valueOf(exchangeRate), 2, BigDecimal.ROUND_HALF_UP);
 
-        // Assuming you have a method getCurrentUser
+        // 현재 유저 GET
         String currentUserId = getCurrentUserId();
 
         MemberEntity currentUser = memberRepository.findByUserId(currentUserId);
@@ -103,7 +101,7 @@ public class TransferServicelmpl implements TransferService {
         tradeDTO.setTargetCurrency(targetCurrency);
         TradeEntity tradeEntity = tradeService.saveTrade(tradeDTO, currentUser);
 
-        // Create response DTO
+        // DTO 응답 생성
         QuoteRespDTO response = QuoteRespDTO.builder()
                 .quoteId(tradeEntity.getTranscationId().toString())
                 .exchangeRate(BigDecimal.valueOf(tradeEntity.getExchangeRate()))
@@ -115,7 +113,6 @@ public class TransferServicelmpl implements TransferService {
     }
 
     private String getCurrentUserId() {
-        // Fetch the current user ID from the security context or any other context you're using
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 }

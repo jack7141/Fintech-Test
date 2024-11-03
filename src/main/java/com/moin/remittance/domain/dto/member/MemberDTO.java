@@ -10,11 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Getter
 @Builder
 public class MemberDTO {
-    /*
-     * @NotEmpty - null, ""을 허용하지 않는다. " "는 허용한다.
-     * @NotNull - null만 허용하지 않는다. "", " "는 허용한다.
-     * @NotBlank - null, "", " "을 모두 허용하지 않는다.
-     * */
     @NotBlank(message = "이메일을 입력해주세요.")
     @Email(message = "이메일 형식으로 입력해주세요.")
     private String userId;

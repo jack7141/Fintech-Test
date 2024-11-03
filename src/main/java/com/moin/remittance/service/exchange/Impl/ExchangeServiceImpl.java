@@ -28,7 +28,6 @@ public class ExchangeServiceImpl implements ExchangeService {
             postCodes = "FRX.KRWUSD";
         }
 
-        // Build the complete URI with the query parameter
         URI uri = UriComponentsBuilder.fromHttpUrl(EXCHANGE_RATE_API_URL)
                 .queryParam("codes", postCodes)
                 .build()
